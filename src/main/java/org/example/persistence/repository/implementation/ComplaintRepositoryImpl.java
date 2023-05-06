@@ -8,23 +8,25 @@ import org.example.persistence.repository.ComplaintRepository;
 import org.example.persistence.utilities.EMUtils;
 import java.util.List;
 
+/**
+ * <h3>Class ComplaintRepositoryImpl</h3>
+ * This class is used to implement the methods of {@link ComplaintRepository}.
+ */
 public class ComplaintRepositoryImpl implements ComplaintRepository {
 
     @Override
     public Complaint get(int id) throws NotFoundException {
 
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
             Complaint result = em.find(Complaint.class, id);
             em.getTransaction().commit();
 
-            if (result == null) {
+            if (result == null)
                 throw new NotFoundException("No complain found with id: " + id);
-            }
 
             return result.setAssignedEngineers(null);
-        } catch (IllegalArgumentException exception) {
-            throw new NotFoundException("No complain found with id: " + id, exception);
         }
     }
 
@@ -32,59 +34,62 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
     public List<Complaint> getAll() {
 
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
-            List<Complaint> result = em.createQuery("SELECT c FROM Complaint c", Complaint.class).getResultList();
+            List<Complaint> result = em.createQuery("SELECT c FROM Complaint c", Complaint.class)
+                    .getResultList();
             em.getTransaction().commit();
 
-            result.forEach(c -> {
-                c.setAssignedEngineers(null);
-            });
+            result.forEach(c -> c.setAssignedEngineers(null));
 
             return result;
         }
     }
 
     @Override
-    public List<Engineer> getAssignedEngineers(int id) throws NotFoundException {
+    public List<Engineer> getAssignedEngineers(int complaintId) throws NotFoundException {
 
         try (EntityManager em = EMUtils.getEM()) {
 
             em.getTransaction().begin();
-            Complaint result = em.find(Complaint.class, id);
+            Complaint result = em.find(Complaint.class, complaintId);
             em.getTransaction().commit();
 
-            if (result == null) {
-                throw new NotFoundException("No complaint found with id: " + id);
-            }
+            if (result == null)
+                throw new NotFoundException("No complaint found with id: " + complaintId);
 
-            List<Engineer> engineers = result.getAssignedEngineers();
-            engineers.forEach(em::detach);
+            result.getAssignedEngineers().forEach(em::detach);
 
-            return engineers;
-        } catch (IllegalArgumentException exception) {
-            throw new NotFoundException("No complaint found with id: " + id, exception);
+            return result.getAssignedEngineers();
         }
     }
 
     @Override
-    public void createComplain(String description, User createdBy, String categoryName, String statusName) throws NotFoundException {
+    public void createComplain(String description, String createdByUserEmail, String categoryName, String statusName) throws NotFoundException {
 
-        if(createdBy == null) {
-            throw new IllegalArgumentException("Created by user cannot be null");
-        }
+        if(description == null)
+            throw new IllegalArgumentException("description parameter cannot be null");
+        if(createdByUserEmail == null)
+            throw new IllegalArgumentException("createdByUserEmail parameter cannot be null");
+        if(categoryName == null)
+            throw new IllegalArgumentException("categoryName parameter cannot be null");
+        if(statusName == null)
+            throw new IllegalArgumentException("statusName parameter cannot be null");
 
         try(EntityManager em = EMUtils.getEM()) {
 
+            em.getTransaction().begin();
+            User createdBy = em.find(User.class, createdByUserEmail);
             Category category = em.find(Category.class, categoryName);
             Status status = em.find(Status.class, statusName);
+            em.getTransaction().commit();
 
-            if(category == null) {
+            if(createdBy == null)
+                throw new NotFoundException("User not found with email: " + createdByUserEmail);
+            if(category == null)
                 throw new NotFoundException("Category not found: " + categoryName);
-            }
-
-            if(status == null) {
+            if(status == null)
                 throw new NotFoundException("Status not found: " + statusName);
-            }
 
             Complaint complaint = Complaint.builder()
                     .description(description)
@@ -101,7 +106,12 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
 
     @Override
     public void setDescription(int id, String description) throws NotFoundException {
+
+        if(description == null)
+            throw new IllegalArgumentException("description parameter cannot be null");
+
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
 
             if(em.createQuery("UPDATE Complaint c SET c.description = :description WHERE c.id = :id")
@@ -118,12 +128,17 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
     @Override
     public void setCategory(int id, String categoryName) throws NotFoundException {
 
-        try (EntityManager em = EMUtils.getEM()) {
-            Category category = em.find(Category.class, categoryName);
+        if(categoryName == null)
+            throw new IllegalArgumentException("categoryName parameter cannot be null");
 
-            if(category == null) {
+        try (EntityManager em = EMUtils.getEM()) {
+
+            em.getTransaction().begin();
+            Category category = em.find(Category.class, categoryName);
+            em.getTransaction().commit();
+
+            if(category == null)
                 throw new NotFoundException("Category not found: " + categoryName);
-            }
 
             em.getTransaction().begin();
 
@@ -141,12 +156,17 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
     @Override
     public void setStatus(int id, String statusName) throws NotFoundException {
 
-        try (EntityManager em = EMUtils.getEM()) {
-            Status status = em.find(Status.class, statusName);
+        if(statusName == null)
+            throw new IllegalArgumentException("statusName parameter cannot be null");
 
-            if(status == null) {
+        try (EntityManager em = EMUtils.getEM()) {
+
+            em.getTransaction().begin();
+            Status status = em.find(Status.class, statusName);
+            em.getTransaction().commit();
+
+            if(status == null)
                 throw new NotFoundException("Status not found: " + statusName);
-            }
 
             em.getTransaction().begin();
 
@@ -172,21 +192,21 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
     }
 
     @Override
-    public void addUpdate(int complainId, String message) throws NotFoundException {
+    public void addUpdate(int complaintId, String message) throws NotFoundException {
 
-        if(message == null) {
+        if(message == null)
             throw new IllegalArgumentException("Message cannot be null");
-        }
-
-        // For checking if the complaint exist or not
-        get(complainId);
 
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
 
-            Complaint complaint = em.find(Complaint.class, complainId);
+            Complaint complaint = em.find(Complaint.class, complaintId);
+
+            if (complaint == null)
+                throw new NotFoundException("No complain found with id: " + complaintId);
+
             complaint.getUpdates().add(Update.builder().message(message).build());
-            em.merge(complaint);
 
             em.getTransaction().commit();
         }

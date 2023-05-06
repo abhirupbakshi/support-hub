@@ -10,35 +10,51 @@ import org.example.persistence.repository.EmployeeRepository;
 import java.util.List;
 
 /**
- * This class is used to implement the methods of {@link EmployeeRepository} but with a generic context. Hence,
- * it does not implement EmployeeRepository itself, and this abstract class is only meant to be extended by the
- * {@link Employee} and it's children.
- * @param <T> The type that either Employee or it's child for which the repository is used.
+ * <h3>Class EmployeeRepositoryImpl</h3>
+ * This class is used to implement the methods of {@link EmployeeRepository} but with a generic context such that
+ * it has all the implementation for each method present in the EmployeeRepository, but with an extra parameter to
+ * each method, that is {@link Class<T>} whose concrete implementation is intended to be provided by the class that
+ * extends this class.
+ * For the Class<T> parameters, it throws IllegalArgumentException if it is null.
+ * <br>
+ * Hence, it doesn't implement EmployeeRepository itself, and is only meant to be extended by the {@link Employee} or
+ * it's children classes.
+ * @param <T> The type, that is either Employee or its child; implemented by the class that extends this class.
  */
 abstract class EmployeeRepositoryImpl <T extends Employee> {
 
     protected T get(String email, Class<T> tClass) throws NotFoundException {
 
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
             T result = em.find(tClass, email);
             em.getTransaction().commit();
 
-            if (result == null) {
+            if (result == null)
                 throw new NotFoundException("No employee found with email: " + email);
-            }
 
             return result;
-        } catch (IllegalArgumentException exception) {
-            throw new NotFoundException("No employee found with email: " + email, exception);
         }
     }
 
     protected List<T> getAll(Class<T> tClass) {
 
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
-            List<T> result = em.createQuery("SELECT e FROM " + tClass.getSimpleName() + " e", tClass).getResultList();
+
+            List<T> result = em.createQuery("SELECT e FROM " + tClass.getSimpleName() + " e", tClass)
+                    .getResultList();
+
             em.getTransaction().commit();
 
             return result;
@@ -46,7 +62,16 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
     }
 
     protected void setForename(String email, String forename, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(forename == null)
+            throw new IllegalArgumentException("forename parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
 
             if(em.createQuery("UPDATE " + tClass.getSimpleName() + " e SET e.forename = :forename WHERE e.email = :email")
@@ -61,7 +86,16 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
     }
 
     protected void setSurname(String email, String surname, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(surname == null)
+            throw new IllegalArgumentException("surname parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
 
             if(em.createQuery("UPDATE " + tClass.getSimpleName() + " e SET e.surname = :surname WHERE e.email = :email")
@@ -76,10 +110,20 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
     }
 
     protected void addAddress(String email, Address address, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(address == null)
+            throw new IllegalArgumentException("address parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
         T result = get(email, tClass);
-        result.getAddresses().add(address);
+
+        result.setAddresses(address);
 
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
             em.merge(result);
             em.getTransaction().commit();
@@ -87,42 +131,71 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
     }
 
     protected void removeAddress(String email, Address address, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
+        if(address == null)
+            return;
+
         T result = get(email, tClass);
 
-        if(result.getAddresses().remove(address)) {
-            try (EntityManager em = EMUtils.getEM()) {
-                em.getTransaction().begin();
-                em.merge(result);
-                em.getTransaction().commit();
-            }
-        }
-        else {
-            throw new NotFoundException("Address not found :" + address);
+        if(!result.removeAddress(address))
+            return;
+
+        try (EntityManager em = EMUtils.getEM()) {
+
+            em.getTransaction().begin();
+            em.merge(result);
+            em.getTransaction().commit();
         }
     }
 
     protected void updateAddress(String email, Address oldAddress, Address newAddress, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(newAddress == null)
+            throw new IllegalArgumentException("newAddress parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
+        if(oldAddress == null)
+            return;
+
         T result = get(email, tClass);
 
-        if(result.getAddresses().remove(oldAddress)) {
-            result.getAddresses().add(newAddress);
+        if(result.getAddresses().contains(oldAddress)) {
+
+            result.setAddresses(newAddress);
+            result.removeAddress(oldAddress);
 
             try (EntityManager em = EMUtils.getEM()) {
+
                 em.getTransaction().begin();
                 em.merge(result);
                 em.getTransaction().commit();
             }
         }
-        else {
-            throw new NotFoundException("Address not found: " + oldAddress);
-        }
     }
 
     protected void addPhone(String email, Phone phone, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(phone == null)
+            throw new IllegalArgumentException("phone parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
         T result = get(email, tClass);
-        result.getPhones().add(phone);
+
+        result.setPhones(phone);
 
         try (EntityManager em = EMUtils.getEM()) {
+
             em.getTransaction().begin();
             em.merge(result);
             em.getTransaction().commit();
@@ -130,34 +203,53 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
     }
 
     protected void removePhone(String email, Phone phone, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
+        if(phone == null)
+            return;
+
         T result = get(email, tClass);
 
-        if(result.getPhones().remove(phone)) {
-            try (EntityManager em = EMUtils.getEM()) {
-                em.getTransaction().begin();
-                em.merge(result);
-                em.getTransaction().commit();
-            }
-        }
-        else {
-            throw new NotFoundException("Phone not found :" + phone);
+        if(result.removePhone(phone))
+            return;
+
+        try (EntityManager em = EMUtils.getEM()) {
+
+            em.getTransaction().begin();
+            em.merge(result);
+            em.getTransaction().commit();
         }
     }
 
     protected void updatePhone(String email, Phone oldPhone, Phone newPhone, Class<T> tClass) throws NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(newPhone == null)
+            throw new IllegalArgumentException("newPhone parameter cannot be null");
+        if(tClass == null)
+            throw new IllegalArgumentException("tClass parameter cannot be null");
+
+        if(oldPhone == null)
+            return;
+
         T result = get(email, tClass);
 
-        if(result.getPhones().remove(oldPhone)) {
-            result.getPhones().add(newPhone);
+        if(result.getPhones().contains(oldPhone)) {
+
+            result.setPhones(newPhone);
+            result.removePhone(oldPhone);
 
             try (EntityManager em = EMUtils.getEM()) {
+
                 em.getTransaction().begin();
                 em.merge(result);
                 em.getTransaction().commit();
             }
-        }
-        else {
-            throw new NotFoundException("Phone not found: " + oldPhone);
         }
     }
 }
