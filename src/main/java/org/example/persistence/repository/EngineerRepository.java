@@ -7,31 +7,32 @@ import org.example.persistence.exception.NotFoundException;
 import java.util.List;
 
 /**
+ * <h3>Interface EngineerRepository</h3>
  * This is a {@link Engineer} specific repository. It extends {@link EmployeeRepository}
  */
 public interface EngineerRepository extends EmployeeRepository <Engineer> {
 
     /**
-     * Get all assigned complains of an engineer
-     * @param email The email of the engineer
+     * Get all assigned complaints for an engineer
+     * @param email The email of the engineer. Throws IllegalArgumentException if the email is null.
      * @return A {@link List} of assigned complains
      * @throws NotFoundException If the engineer does not exist
      */
     List<Complaint> getAssignedComplains(String email) throws NotFoundException;
 
     /**
-     * Assign a complaint to an engineer that already exists
-     * @param email The email of the engineer
-     * @param complainId The id of the complaint
+     * Assign an existing complaint to an existing engineer.
+     * @param email The email of the engineer. Throws IllegalArgumentException if the email is null.
+     * @param complainId The id of the complaint.
      * @throws NotFoundException If the engineer or the complaint does not exist
-     * @throws AlreadyExistException If the engineer already has the complaint assigned
+     * @throws AlreadyExistException If the engineer already has the complaint assigned to them
      */
     void assignExistingComplain(String email, int complainId) throws NotFoundException, AlreadyExistException;
 
     /**
      * Remove an assigned complaint from an engineer
-     * @param email The email of the engineer
-     * @param complainId The id of the complaint
+     * @param email The email of the engineer. Throws IllegalArgumentException if the email is null.
+     * @param complainId The id of the complaint.
      * @throws NotFoundException If the engineer or the complaint does not exist, or the engineer does not have
      * the complaint previously assigned to them
      */

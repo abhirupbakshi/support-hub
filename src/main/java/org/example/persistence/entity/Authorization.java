@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "authorization_level")
+@Table(name = "Authorizations")
 @SuperBuilder
 @NoArgsConstructor(force = true)
 @Getter

@@ -8,8 +8,12 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * <h3>Class HOD</h3>
+ * This class represents head of the department (HOD) employee.
+ */
 @Entity
-@DiscriminatorValue("hod")
+@DiscriminatorValue("HOD")
 @SuperBuilder
 @NoArgsConstructor(force = true)
 @Getter

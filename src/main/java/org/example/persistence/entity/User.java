@@ -1,17 +1,18 @@
 package org.example.persistence.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h3>Class User</h3>
+ * This class represents any user employee.
+ */
 @Entity
-@DiscriminatorValue("user")
+@DiscriminatorValue("User")
 @SuperBuilder
 @NoArgsConstructor(force = true)
 @Getter
@@ -19,7 +20,11 @@ import java.util.List;
 @Accessors(chain = true)
 public class User extends Employee {
 
-    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.PERSIST)
+    /**
+     * <h4>Optional</h4>
+     * Created complaints by the user.
+     */
+    @OneToMany(targetEntity = Complaint.class, mappedBy = "createdBy", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @Builder.Default
     List<Complaint> createdComplaints = new ArrayList<>();
 }
