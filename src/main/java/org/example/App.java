@@ -5,8 +5,13 @@ import org.example.persistence.entity.*;
 import org.example.persistence.repository.*;
 import org.example.persistence.repository.implementation.*;
 import org.example.persistence.utilities.EMUtils;
+import org.example.service.EngineerService;
+import org.example.service.HODService;
+import org.example.service.UserService;
+import org.example.service.implementation.EngineerServiceImpl;
+import org.example.service.implementation.HODServiceImpl;
+import org.example.service.implementation.UserServiceImpl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,19 +40,8 @@ public class App {
                 .name("Resolved")
                 .build()
         );
-        em.persist(Authorization.builder()
-                .employeeType(User.class.getName())
-                .level(1)
-                .build());
-        em.persist(Authorization.builder()
-                .employeeType(Engineer.class.getName())
-                .level(2)
-                .build());
-        em.persist(Authorization.builder()
-                .employeeType(HOD.class.getName())
-                .level(3)
-                .build());
         em.getTransaction().commit();
+        em.close();
 
 
         AccountRepository ar = new AccountRepositoryImpl();
@@ -283,12 +277,252 @@ public class App {
         ar.deleteAccount("user1@example.com");
 
         AuthorizationRepository authr = new AuthorizationRepositoryImpl();
-        System.out.println(authr.get(2));
-        System.out.println(authr.get(Engineer.class.getName()));
+        System.out.println(authr.getPermission("UserDTO", "user_account_create"));
+        System.out.println(authr.getPermission("UserDTO", "user_acc"));
+        System.out.println(authr.getPermission("Engineer", "hod_account_create"));
+        System.out.println(authr.getPermission("Engineer", "hod_account_cre"));
+
+
+
+        //***************************************************************************************************************
+
+
+        EngineerService es = new EngineerServiceImpl();
+
+        es.changeForename("engineer2@example.com", new byte[] {1, 2, 7}, "e1f");
+        es.changeSurname("engineer2@example.com", new byte[] {1, 2, 7}, "esurnamef");
+        es.addAddress("engineer2@example.com", new byte[] {1, 2, 7}, Address.builder()
+                .addressType("home")
+                .state("state11")
+                .city("city11")
+                .country("country11")
+                .build());
+        es.updateAddress("engineer2@example.com", new byte[] {1, 2, 7},
+                Address.builder()
+                .addressType("home")
+                .state("state11")
+                .city("city11")
+                .country("country11")
+                .build(),
+
+                Address.builder()
+                        .addressType("office")
+                        .state("state11")
+                        .city("city11")
+                        .country("country11")
+                        .build()
+        );
+        es.removeAddress("engineer2@example.com", new byte[] {1, 2, 7},
+                Address.builder()
+                        .addressType("office")
+                        .state("state11")
+                        .city("city11")
+                        .country("country11")
+                        .build()
+        );
+
+
+        es.addPhone("engineer2@example.com", new byte[] {1, 2, 7}, Phone.builder()
+                .phoneNumberType("home")
+                .number("6666666666")
+                .build());
+        es.updatePhone("engineer2@example.com", new byte[] {1, 2, 7},
+                Phone.builder()
+                .phoneNumberType("home")
+                .number("6666666666")
+                .build(),
+
+                Phone.builder()
+                        .phoneNumberType("office")
+                        .number("6666666666")
+                        .build()
+        );
+        es.removePhone("engineer2@example.com", new byte[] {1, 2, 7}, Phone.builder()
+                .phoneNumberType("office")
+                .number("6666666666")
+                .build());
+
+        es.createAccount("engineer3@example.com",
+                "engineer3",
+                "engineer3surname",
+                new ArrayList<>(List.of(Address.builder()
+                        .addressType("office")
+                        .state("state11")
+                        .city("city11")
+                        .country("country11")
+                        .build())),
+                new ArrayList<>(List.of(Phone.builder()
+                        .phoneNumberType("home")
+                        .number("7777777777")
+                        .build())),
+                "1234");
+        es.updatePassword("engineer3@example.com", "1234", "engineer3password");
+        es.updatePassword("engineer3@example.com", "engineer3password", "1234");
+        System.out.println(
+                ((Engineer) es.getAccountDetails("engineer3@example.com", "1234")
+                .getEmployee()).getAssignedComplaints()
+        );
+        System.out.println(
+                ((Engineer) es.getAccountDetails("engineer3@example.com", "1234")
+                        .getEmployee()).getPhones()
+        );
+        cr.assignExistingEngineer("engineer3@example.com", 1);
+        System.out.println(es.getAssignedComplaint("engineer3@example.com", "1234", 1)
+                .getStatus());
+        System.out.println(es.getAllAssignedComplaints("engineer3@example.com", "1234"));
+        es.changeComplaintStatus("engineer3@example.com", "1234", 1, "Resolved");
+        es.addUpdateToComplaint("engineer3@example.com", "1234", 1, "update1: done something");
+
+        UserService us = new UserServiceImpl();
+
+        us.createAccount("user3@example.com",
+                "user3",
+                "user3surname",
+                new ArrayList<>(List.of(Address.builder()
+                        .addressType("office")
+                        .state("state11")
+                        .city("city11")
+                        .country("country11")
+                        .build())),
+                new ArrayList<>(List.of(Phone.builder()
+                        .phoneNumberType("home")
+                        .number("7777777777")
+                        .build())),
+                "1234");
+        us.registerComplaint("user3@example.com", "1234", "complaint desc1", "Software");
+        System.out.println(us.getAllCreatedComplaints("user3@example.com", "1234"));
+        System.out.println(us.getCreatedComplaint("user3@example.com", "1234", 4));
+        us.changeComplaintStatusToResolved("user3@example.com", "1234", 4);
+
+        es.deleteAccount("engineer3@example.com", "1234");
+
+        HODService hs = new HODServiceImpl();
+
+        hs.createAccount("hod2@example.com",
+                "hod",
+                "hod surname",
+                new ArrayList<>(List.of(Address.builder()
+                        .addressType("office")
+                        .state("state11")
+                        .city("city11")
+                        .country("country11")
+                        .build())),
+                new ArrayList<>(List.of(Phone.builder()
+                        .phoneNumberType("home")
+                        .number("7777777777")
+                        .build())),
+                "1234");
+
+        hs.getAllEngineers("hod2@example.com", "1234").forEach(System.out::println);
+        hs.getAllComplaints("hod2@example.com", "1234").forEach(System.out::println);
+        hs.assignExistingComplainToExistingEngineer("hod2@example.com", "1234",
+                1, "engineer2@example.com");
+        hs.removeExistingComplainFromExistingEngineer("hod2@example.com", "1234",
+                1, "engineer2@example.com");
+    }
+
+    static void addTestAuth() {
+        EntityManager em = EMUtils.getEM();
+        em.getTransaction().begin();
+
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(Engineer.class.getSimpleName())
+                        .permissionName("complaint_read_assigned")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(Engineer.class.getSimpleName())
+                        .permissionName("complaint_update_status")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(Engineer.class.getSimpleName())
+                        .permissionName("complaint_create_update")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(User.class.getSimpleName())
+                        .permissionName("complaint_read_created")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(User.class.getSimpleName())
+                        .permissionName("complaint_create_register")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(User.class.getSimpleName())
+                        .permissionName("complaint_update_status-resolved")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(HOD.class.getSimpleName())
+                        .permissionName("engineer_read_details")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(HOD.class.getSimpleName())
+                        .permissionName("complaint_read_details")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(HOD.class.getSimpleName())
+                        .permissionName("complaint_update_assign-engineer")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+        em.persist(Authorization.builder()
+                .key(AuthorizationKey.builder()
+                        .employeeType(HOD.class.getSimpleName())
+                        .permissionName("engineer_delete_assigned-complaint")
+                        .build()
+                )
+                .value(true)
+                .build()
+        );
+
+        em.getTransaction().commit();
+        em.close();
     }
 
     public static void main(String[] args) throws Exception {
         EMUtils emUtils = new EMUtils();
+        addTestAuth();
         test();
     }
 }
