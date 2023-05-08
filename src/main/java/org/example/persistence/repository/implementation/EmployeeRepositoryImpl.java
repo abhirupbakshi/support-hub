@@ -74,7 +74,7 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
 
             em.getTransaction().begin();
 
-            if(em.createQuery("UPDATE " + tClass.getSimpleName() + " e SET e.forename = :forename WHERE e.email = :email")
+            if(em.createQuery("UPDATE " + tClass.getSimpleName() + " e SET e.forename = :forename WHERE e.employeeEmail = :email")
                     .setParameter("forename", forename)
                     .setParameter("email", email)
                     .executeUpdate() < 1) {
@@ -98,7 +98,7 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
 
             em.getTransaction().begin();
 
-            if(em.createQuery("UPDATE " + tClass.getSimpleName() + " e SET e.surname = :surname WHERE e.email = :email")
+            if(em.createQuery("UPDATE " + tClass.getSimpleName() + " e SET e.surname = :surname WHERE e.employeeEmail = :email")
                     .setParameter("surname", surname)
                     .setParameter("email", email)
                     .executeUpdate() < 1) {
@@ -214,7 +214,7 @@ abstract class EmployeeRepositoryImpl <T extends Employee> {
 
         T result = get(email, tClass);
 
-        if(result.removePhone(phone))
+        if(!result.removePhone(phone))
             return;
 
         try (EntityManager em = EMUtils.getEM()) {

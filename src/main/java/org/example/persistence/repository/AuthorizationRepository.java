@@ -1,8 +1,6 @@
 package org.example.persistence.repository;
 
 import org.example.persistence.entity.Authorization;
-import org.example.persistence.exception.NotFoundException;
-import java.util.List;
 
 /**
  * <h3>Interface AuthorizationRepository</h3>
@@ -11,17 +9,12 @@ import java.util.List;
 public interface AuthorizationRepository {
 
     /**
-     * Get authorization level by employee type
+     * Returns a boolean value for a permission that indicates whether the employee has that permission or not.
+     * If the permission does not exist, returns null.
      * @param employeeType Employee type. Throws IllegalArgumentException it's null
-     * @return Authorization level
-     * @throws NotFoundException If the employee type is not found
+     * @param permissionName Permission name. Throws IllegalArgumentException it's null
+     * @return A boolean value indicating if the permission is granted or not.
+     * If the permission does not exist, returns null.
      */
-    int get(String employeeType) throws NotFoundException;
-
-    /**
-     * Get employee types by authorization level
-     * @param level Authorization level
-     * @return Employee types as {@link List}
-     */
-    List<String> get(int level);
+    Boolean getPermission(String employeeType, String permissionName);
 }

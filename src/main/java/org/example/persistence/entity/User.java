@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <h3>Class User</h3>
+ * <h3>Class UserDTO</h3>
  * This class represents any user employee.
  */
 @Entity
