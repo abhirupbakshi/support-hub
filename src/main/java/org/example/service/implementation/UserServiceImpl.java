@@ -112,7 +112,7 @@ public class UserServiceImpl extends AccountServiceImpl<User> implements UserSer
             throw new IllegalArgumentException("password parameter cannot be null");
 
         authorizeAndAuthenticate(User.class, Complaint.class,
-                Complaint.class.getSimpleName().toLowerCase() + "_read_created",
+                Complaint.class.getSimpleName().toLowerCase() + "_read_registered",
                 email, Password.encrypt(password));
 
         List<Complaint> complaints = new UserRepositoryImpl().getCreatedComplains(email);

@@ -2,18 +2,22 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import org.example.persistence.entity.*;
+import org.example.persistence.exception.AlreadyExistException;
 import org.example.persistence.repository.*;
 import org.example.persistence.repository.implementation.*;
 import org.example.persistence.utilities.EMUtils;
 import org.example.service.EngineerService;
 import org.example.service.HODService;
 import org.example.service.UserService;
+import org.example.service.exception.AuthorizationException;
 import org.example.service.implementation.EngineerServiceImpl;
 import org.example.service.implementation.HODServiceImpl;
 import org.example.service.implementation.UserServiceImpl;
+import org.example.ui.MainUI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class App {
     public static void test() throws Exception {
@@ -425,15 +429,18 @@ public class App {
         EntityManager em = EMUtils.getEM();
         em.getTransaction().begin();
 
-        em.persist(Authorization.builder()
-                .key(AuthorizationKey.builder()
-                        .employeeType(Engineer.class.getSimpleName())
-                        .permissionName("complaint_read_assigned")
-                        .build()
-                )
-                .value(true)
-                .build()
-        );
+        try {
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(Engineer.class.getSimpleName())
+                            .permissionName("complaint_read_assigned")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+        }
+        catch (Exception ignored) {}
         em.persist(Authorization.builder()
                 .key(AuthorizationKey.builder()
                         .employeeType(Engineer.class.getSimpleName())
@@ -520,9 +527,266 @@ public class App {
         em.close();
     }
 
+    static void addAuth() {
+        EntityManager em = EMUtils.getEM();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(Engineer.class.getSimpleName())
+                            .permissionName("complaint_create_update")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(Engineer.class.getSimpleName())
+                            .permissionName("complaint_update_status")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(Engineer.class.getSimpleName())
+                            .permissionName("complaint_read_assigned")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(HOD.class.getSimpleName())
+                            .permissionName("complaint_delete_assigned-engineer")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(HOD.class.getSimpleName())
+                            .permissionName("complaint_read_details")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(HOD.class.getSimpleName())
+                            .permissionName("engineer_read_details")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(User.class.getSimpleName())
+                            .permissionName("complaint_create_register")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(User.class.getSimpleName())
+                            .permissionName("complaint_read_registered")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(User.class.getSimpleName())
+                            .permissionName("complaint_update_status-resolved")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(HOD.class.getSimpleName())
+                            .permissionName("engineer_read_details")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(HOD.class.getSimpleName())
+                            .permissionName("complaint_read_details")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(HOD.class.getSimpleName())
+                            .permissionName("complaint_update_assign-engineer")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        try {
+            em.getTransaction().begin();
+            em.persist(Authorization.builder()
+                    .key(AuthorizationKey.builder()
+                            .employeeType(HOD.class.getSimpleName())
+                            .permissionName("engineer_create_account")
+                            .build()
+                    )
+                    .value(true)
+                    .build()
+            );
+            em.getTransaction().commit();
+        }
+        catch (Exception ignored) {}
+
+        em.close();
+    }
+
+    static void addStuff() {
+        EntityManager em = EMUtils.getEM();
+
+        try {
+            em.getTransaction().begin();
+            new HODServiceImpl().createAccount("hod", "HOD", "HOD",
+                    List.of(Address.builder().addressType("Home").build()),
+                    List.of(Phone.builder().phoneNumberType("home").number("888888888").build()),
+                    "1234");
+            em.getTransaction().commit();
+        } catch (Exception e) {}
+
+
+
+        em.close();
+        em = EMUtils.getEM();
+        em.getTransaction().begin();
+        em.persist(Category.builder()
+                .name("Software")
+                .build()
+        );
+        em.persist(Category.builder()
+                .name("Hardware")
+                .build()
+        );
+        em.persist(Status.builder()
+                .name("Open")
+                .build()
+        );
+        em.persist(Status.builder()
+                .name("In Progress")
+                .build()
+        );
+        em.persist(Status.builder()
+                .name("Resolved")
+                .build()
+        );
+        em.getTransaction().commit();
+        em.close();
+    }
+
     public static void main(String[] args) throws Exception {
         EMUtils emUtils = new EMUtils();
-        addTestAuth();
-        test();
+        Scanner scanner = new Scanner(System.in);
+
+//        addTestAuth();
+//        test();
+
+        try {
+            addAuth();
+        }
+        catch (Exception ignored) {}
+        try {
+            addStuff();
+        }
+        catch (Exception ignored) {}
+
+
+        new MainUI(scanner).prompt();
+        scanner.close();
     }
 }

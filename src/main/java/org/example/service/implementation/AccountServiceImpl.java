@@ -4,19 +4,13 @@ import org.example.persistence.entity.*;
 import org.example.persistence.exception.AlreadyExistException;
 import org.example.persistence.exception.InvalidCredentialException;
 import org.example.persistence.exception.NotFoundException;
-import org.example.persistence.repository.EmployeeRepository;
 import org.example.persistence.repository.implementation.AccountRepositoryImpl;
-import org.example.persistence.repository.implementation.EngineerRepositoryImpl;
-import org.example.persistence.repository.implementation.HODRepositoryImpl;
-import org.example.persistence.repository.implementation.UserRepositoryImpl;
 import org.example.service.exception.AuthenticationException;
 import org.example.service.exception.AuthorizationException;
 import org.example.service.utilities.Password;
-
 import java.util.List;
-import java.util.Objects;
 
-public abstract class AccountServiceImpl <T extends Employee> extends EmployeeServiceImpl <T> {
+abstract class AccountServiceImpl <T extends Employee> extends EmployeeServiceImpl <T> {
 
     protected Employee employeeDirector(
             Class<? extends Employee> className,
