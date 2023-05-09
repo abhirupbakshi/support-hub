@@ -68,6 +68,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
         try {
             get(employee.getEmployeeEmail());
+
             throw new AlreadyExistException("Account already exists for employee: " + employee.getEmployeeEmail());
         }
         catch (NotFoundException ignored) { }

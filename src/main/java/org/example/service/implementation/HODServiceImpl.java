@@ -3,6 +3,7 @@ package org.example.service.implementation;
 import org.example.persistence.entity.*;
 import org.example.persistence.exception.AlreadyExistException;
 import org.example.persistence.exception.NotFoundException;
+import org.example.persistence.repository.implementation.AccountRepositoryImpl;
 import org.example.persistence.repository.implementation.ComplaintRepositoryImpl;
 import org.example.persistence.repository.implementation.EngineerRepositoryImpl;
 import org.example.service.HODService;
@@ -135,6 +136,45 @@ public class HODServiceImpl extends AccountServiceImpl<HOD> implements HODServic
     }
 
     @Override
+    public List<Complaint> getComplaintsAssignedToEngineer
+            (String email, String password, String engineerEmail)
+            throws AuthenticationException, AuthorizationException, NotFoundException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(password == null)
+            throw new IllegalArgumentException("password parameter cannot be null");
+        if(engineerEmail == null)
+            throw new IllegalArgumentException("engineerEmail parameter cannot be null");
+
+        AuthorizationException exception1 = null;
+        AuthorizationException exception2 = null;
+
+        try {
+            authorizeAndAuthenticate(HOD.class, Complaint.class,
+                    Complaint.class.getSimpleName().toLowerCase() + "_read_details",
+                    email, Password.encrypt(password));
+        }
+        catch (AuthorizationException exception) {
+            exception1 = exception;
+        }
+
+        try {
+            authorizeAndAuthenticate(HOD.class, Engineer.class,
+                    Engineer.class.getSimpleName().toLowerCase() + "_read_details",
+                    email, Password.encrypt(password));
+        }
+        catch (AuthorizationException exception) {
+            exception2 = exception;
+        }
+
+        if(exception1 != null || exception2 != null)
+            throw exception1 == null ? exception2 : exception1;
+
+        return new EngineerRepositoryImpl().getAssignedComplains(engineerEmail);
+    }
+
+    @Override
     public void assignExistingComplainToExistingEngineer(
             String email, String password, int complaintId, String engineerEmail)
             throws AuthenticationException, AuthorizationException, NotFoundException, AlreadyExistException {
@@ -209,5 +249,43 @@ public class HODServiceImpl extends AccountServiceImpl<HOD> implements HODServic
             throw exception1;
 
         new EngineerRepositoryImpl().removeAssignedComplain(engineerEmail, complaintId);
+    }
+
+    @Override
+    public void createEngineerAccount(
+            String email, String password,
+            String engineerEmail, String engineerForename, String engineerSurname,
+            List<Address> addresses, List<Phone> phones, String engineerPassword)
+            throws AuthenticationException, AuthorizationException, NotFoundException, AlreadyExistException {
+
+        if(email == null)
+            throw new IllegalArgumentException("email parameter cannot be null");
+        if(password == null)
+            throw new IllegalArgumentException("password parameter cannot be null");
+        if(engineerEmail == null)
+            throw new IllegalArgumentException("engineerEmail parameter cannot be null");
+        if(engineerForename == null)
+            throw new IllegalArgumentException("engineerForename parameter cannot be null");
+        if(engineerSurname == null)
+            throw new IllegalArgumentException("engineerSurname parameter cannot be null");
+        if(addresses == null)
+            throw new IllegalArgumentException("addresses parameter cannot be null");
+        if(phones == null)
+            throw new IllegalArgumentException("phones parameter cannot be null");
+
+        authorizeAndAuthenticate(HOD.class, Engineer.class,
+                Engineer.class.getSimpleName().toLowerCase() + "_create_account",
+                email, Password.encrypt(password));
+
+        new AccountRepositoryImpl().createAccount(
+                Engineer.builder()
+                        .employeeEmail(engineerEmail)
+                        .forename(engineerForename)
+                        .surname(engineerSurname)
+                        .addresses(addresses)
+                        .phones(phones)
+                        .build(),
+                Password.encrypt(engineerPassword)
+        );
     }
 }
