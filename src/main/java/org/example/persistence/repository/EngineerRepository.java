@@ -13,27 +13,27 @@ import java.util.List;
 public interface EngineerRepository extends EmployeeRepository <Engineer> {
 
     /**
-     * Get all assigned complaints for an engineer
-     * @param email The email of the engineer. Throws IllegalArgumentException if the email is null.
+     * Get all assigned complaints for an employee
+     * @param email The email of the employee. Throws IllegalArgumentException if the email is null.
      * @return A {@link List} of assigned complains
-     * @throws NotFoundException If the engineer does not exist
+     * @throws NotFoundException If the employee does not exist
      */
     List<Complaint> getAssignedComplains(String email) throws NotFoundException;
 
     /**
-     * Assign an existing complaint to an existing engineer.
-     * @param email The email of the engineer. Throws IllegalArgumentException if the email is null.
+     * Assign an existing complaint to an existing employee.
+     * @param email The email of the employee. Throws IllegalArgumentException if the email is null.
      * @param complainId The id of the complaint.
-     * @throws NotFoundException If the engineer or the complaint does not exist
-     * @throws AlreadyExistException If the engineer already has the complaint assigned to them
+     * @throws NotFoundException If the employee or the complaint does not exist
+     * @throws AlreadyExistException If the employee already has the complaint assigned to them
      */
     void assignExistingComplain(String email, int complainId) throws NotFoundException, AlreadyExistException;
 
     /**
-     * Remove an assigned complaint from an engineer
-     * @param email The email of the engineer. Throws IllegalArgumentException if the email is null.
+     * Remove an assigned complaint from an employee
+     * @param email The email of the employee. Throws IllegalArgumentException if the email is null.
      * @param complainId The id of the complaint.
-     * @throws NotFoundException If the engineer or the complaint does not exist, or the engineer does not have
+     * @throws NotFoundException If the employee or the complaint does not exist, or the employee does not have
      * the complaint previously assigned to them
      */
     void removeAssignedComplain(String email, int complainId) throws NotFoundException;

@@ -136,6 +136,20 @@ public class HODServiceImpl extends AccountServiceImpl<HOD> implements HODServic
     }
 
     @Override
+    public Complaint getComplaint(String email, String password, int complaintId)
+            throws AuthenticationException, AuthorizationException, NotFoundException {
+
+        List<Complaint> complaints = getAllComplaints(email, password);
+
+        for(Complaint complaint : complaints) {
+            if(complaint.getId() == complaintId)
+                return complaint;
+        }
+
+        throw new NotFoundException("Complaint not found with id " + complaintId);
+    }
+
+    @Override
     public List<Complaint> getComplaintsAssignedToEngineer
             (String email, String password, String engineerEmail)
             throws AuthenticationException, AuthorizationException, NotFoundException {
