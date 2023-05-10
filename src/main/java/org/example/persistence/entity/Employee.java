@@ -78,10 +78,6 @@ public abstract class Employee {
     // @NonNull is not used here to escape circular dependency between Account and Employee
     private Account account;
 
-    /**
-     * A constructor to be used by {@link SuperBuilder}. It checks for null and empty values
-     * @param b The builder to use
-     */
     protected Employee(EmployeeBuilder<?, ?> b) {
         Objects.requireNonNull(b.addresses, "Employee address cannot be null");
         Objects.requireNonNull(b.phones, "Employee phone cannot be null");

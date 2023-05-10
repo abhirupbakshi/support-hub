@@ -1,0 +1,12 @@
+org.example
+org.example.persistence.entity
+org.example.persistence.exception
+org.example.persistence.repository
+org.example.persistence.repository.implementation
+org.example.persistence.utilities
+org.example.service
+org.example.service.exception
+org.example.service.implementation
+org.example.service.utilities
+org.example.ui
+org.example.ui.utilities
