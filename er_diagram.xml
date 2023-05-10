@@ -1,0 +1,112 @@
+<mxfile host="app.diagrams.net" modified="2023-05-10T03:41:54.090Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="mKVzeFI_Zb2Z7Rcq3ExZ" version="21.2.9">
+  <diagram name="Page-1" id="yCxbjtDqux0VKP4idbNw">
+    <mxGraphModel dx="2284" dy="790" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="owpRTy-fPygdCI8dDZU5-21" value="Address" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="571" y="206" width="396" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-22" value="&lt;div&gt;+ address_type VARCHAR NOT NULL&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ city VARCHAR&lt;/div&gt;&lt;div&gt;+ state VARCHAR&lt;/div&gt;&lt;div&gt;+ country VARCHAR&lt;/div&gt;&lt;div&gt;+ employee NOT NULL VARCHAR FK REFERENCES Employee email&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="owpRTy-fPygdCI8dDZU5-21" vertex="1">
+          <mxGeometry y="30" width="396" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-23" value="Phone" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=27;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="571" y="78" width="389" height="81" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-24" value="&lt;div&gt;+ number INT NOT NULL&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ number_type VARCHAR NOT NULL&lt;/div&gt;&lt;div&gt;+ employee NOT NULL VARCHAR FK REFERENCES Employee email&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="owpRTy-fPygdCI8dDZU5-23" vertex="1">
+          <mxGeometry y="27" width="389" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-36" value="Complain" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=33;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="571" y="369" width="398" height="167" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-37" value="&lt;div&gt;+ id INT PK AUTO_INCREMENT&lt;/div&gt;&lt;div&gt;&lt;div&gt;+ creation_date DATE NOT NULL&lt;/div&gt;+ description VARCHAR NOT NULL&lt;/div&gt;&lt;div&gt;+ created_by VARCHAR FK REFERENCES Employee email&lt;/div&gt;&lt;div&gt;+ assigned_engineer VARCHAR FK REFERENCES Employee email&lt;/div&gt;&lt;div&gt;+ category NOT NULL VARCHAR  FK REFERENCES Category name&lt;/div&gt;&lt;div&gt;+ status NOT NULL VARCHAR  FK REFERENCES Status name&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="owpRTy-fPygdCI8dDZU5-36" vertex="1">
+          <mxGeometry y="33" width="398" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-44" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;exitX=1.003;exitY=0.046;exitDx=0;exitDy=0;entryX=0;entryY=0.872;entryDx=0;entryDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="owpRTy-fPygdCI8dDZU5-49" target="owpRTy-fPygdCI8dDZU5-22" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="535" y="335" as="sourcePoint" />
+            <mxPoint x="635" y="235" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-45" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;exitX=1.003;exitY=0.046;exitDx=0;exitDy=0;entryX=0;entryY=0.815;entryDx=0;entryDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="owpRTy-fPygdCI8dDZU5-49" target="owpRTy-fPygdCI8dDZU5-24" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="396" y="349" as="sourcePoint" />
+            <mxPoint x="610" y="349" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-48" value="Employee" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="145" y="162" width="305" height="163" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-49" value="&lt;div&gt;+ email VARCHAR PK&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ forename VARCHAR NOT NULL&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ surname VARCHAR NOT NULL&lt;/div&gt;&lt;div&gt;+ employee_type VARCHAR &lt;br&gt;&lt;/div&gt;&lt;div&gt;+ account FK REFERENCES Account id&lt;br&gt;&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="owpRTy-fPygdCI8dDZU5-48" vertex="1">
+          <mxGeometry y="50" width="305" height="113" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-54" value="Category" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=37;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="499" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-55" value="&lt;div&gt;+ name VARCHAR PK&lt;/div&gt;&lt;div&gt;+ description VARCHAR&lt;br&gt;&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="owpRTy-fPygdCI8dDZU5-54" vertex="1">
+          <mxGeometry y="37" width="160" height="83" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-56" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;exitX=0.996;exitY=0.124;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.002;entryY=0.654;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="owpRTy-fPygdCI8dDZU5-55" target="owpRTy-fPygdCI8dDZU5-37" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="454" y="485" as="sourcePoint" />
+            <mxPoint x="453" y="406" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-57" value="Status" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=37;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="669" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-58" value="&lt;div&gt;+ name VARCHAR PK&lt;/div&gt;&lt;div&gt;+ description VARCHAR&lt;br&gt;&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="owpRTy-fPygdCI8dDZU5-57" vertex="1">
+          <mxGeometry y="37" width="160" height="53" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-59" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;exitX=1.006;exitY=0.17;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="owpRTy-fPygdCI8dDZU5-58" target="owpRTy-fPygdCI8dDZU5-37" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="585" y="601" as="sourcePoint" />
+            <mxPoint x="389" y="437" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-61" value="Update" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="202" y="349" width="248" height="113" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-62" value="&lt;div&gt;+ complain FK REFERENCES Complain id&lt;/div&gt;&lt;div&gt;+ message VARCHAR NOT NULL&lt;/div&gt;&lt;div&gt;+ created_on DATE NOT NULL&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="owpRTy-fPygdCI8dDZU5-61" vertex="1">
+          <mxGeometry y="50" width="248" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="owpRTy-fPygdCI8dDZU5-63" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitX=0.001;exitY=0.092;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="owpRTy-fPygdCI8dDZU5-37" target="owpRTy-fPygdCI8dDZU5-62" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="773" y="738" as="sourcePoint" />
+            <mxPoint x="552" y="788" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZpkbaAiblPmAQOncDCtS-1" value="Account" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-182" y="205" width="271" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ZpkbaAiblPmAQOncDCtS-2" value="&lt;div&gt;+ id INT PK AUTO_INCREMENT&lt;/div&gt;&lt;div&gt;+ password BLOB NOT NULL&lt;/div&gt;&lt;div&gt;+ creation_date DATE NOT NULL&lt;/div&gt;&lt;div&gt;+ employee FK REFERENCES Employee email&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="ZpkbaAiblPmAQOncDCtS-1" vertex="1">
+          <mxGeometry y="50" width="271" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ZpkbaAiblPmAQOncDCtS-3" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERmandOne;startArrow=ERmandOne;rounded=0;entryX=0.003;entryY=0.887;entryDx=0;entryDy=0;exitX=0.997;exitY=0.82;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="ZpkbaAiblPmAQOncDCtS-2" target="owpRTy-fPygdCI8dDZU5-49" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="86" y="437" as="sourcePoint" />
+            <mxPoint x="186" y="337" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZpkbaAiblPmAQOncDCtS-4" value="Authorization" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-211" y="373" width="325" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="ZpkbaAiblPmAQOncDCtS-5" value="&lt;div&gt;+ employee_type VARCHAR PK&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt; &lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;|&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;|&amp;nbsp; (compound PK)&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ permission_name VARCHAR PK&amp;nbsp; &lt;span style=&quot;white-space: pre;&quot;&gt; &lt;/span&gt;|&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ value INT&lt;br&gt;&lt;/div&gt;" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;" parent="ZpkbaAiblPmAQOncDCtS-4" vertex="1">
+          <mxGeometry y="50" width="325" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="ZpkbaAiblPmAQOncDCtS-6" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;entryX=-0.002;entryY=0.428;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.001;exitY=0.046;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="owpRTy-fPygdCI8dDZU5-49" target="owpRTy-fPygdCI8dDZU5-37" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="453" y="218" as="sourcePoint" />
+            <mxPoint x="576" y="177" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZpkbaAiblPmAQOncDCtS-7" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERmany;startArrow=ERmany;rounded=0;exitX=1.003;exitY=0.106;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="owpRTy-fPygdCI8dDZU5-49" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="553" y="409" as="sourcePoint" />
+            <mxPoint x="570" y="473" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

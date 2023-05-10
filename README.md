@@ -23,6 +23,10 @@ An HOD account has to be created by the database administrator and an Engineer a
 
 ## Database:
 This app has been created by using JPA and not any specific ORM framework. Hence only an relational database can be used to store the data.
+<br>
+ER Diagram:
+<img src="https://i.imgur.com/vKMEugp.png">
+The diagram has been generated with [drawio](https://www.drawio.com/) and the generated XML can be accessed from [here]().
 
 ## Permissions:
 In the database, permissions can be granted or revoked to the employees (all types) with the help of a table called Authorizations. The table consists of following attributes:
