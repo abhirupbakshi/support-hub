@@ -2,7 +2,6 @@ package org.example.ui.utilities;
 
 import org.example.persistence.entity.Address;
 import org.example.persistence.entity.Phone;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -65,24 +64,24 @@ public class Prompt {
         do {
             addresses.add(Address.builder()
                     .addressType(
-                            prompt.string("Enter Address Type (e.g \"Home\" / \"Office\"): ",
-                                    true, "Address Type cannot be empty"))
+                            prompt.string(Print.boldString("Enter address Type (e.g \"Home\" / \"Office\"): "),
+                                    true, Print.redString("Address type cannot be empty")))
 
-                    .city(prompt.string("Enter City: ", false, ""))
+                    .city(prompt.string(Print.boldString("Enter city: "), false, ""))
 
-                    .state(prompt.string("Enter State: ", false, ""))
+                    .state(prompt.string(Print.boldString("Enter state: "), false, ""))
 
-                    .country(prompt.string("Enter Country: ", false, ""))
+                    .country(prompt.string(Print.boldString("Enter country: "), false, ""))
 
                     .build()
             );
 
             while (true) {
-                choice = prompt.string("Add another address (y/n): ",
-                        true, "Invalid choice");
+                choice = prompt.string(Print.boldString("Add another address (y/n): "),
+                        true, Print.redString("Invalid choice"));
 
                 if(!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"))
-                    System.out.println("Invalid choice");
+                    System.out.println(Print.redString("Invalid choice"));
                 else
                     break;
             }
@@ -102,23 +101,23 @@ public class Prompt {
             phones.add(Phone.builder()
 
                     .phoneNumberType(
-                            prompt.string("Enter Phone Type (e.g \"Home\" / \"Office\"): ",
-                                    true, "Phone Type cannot be empty"))
+                            prompt.string(Print.boldString("Enter Phone Type (e.g \"Home\" / \"Office\"): "),
+                                    true, Print.redString("Phone Type cannot be empty")))
 
                     .number(
-                            prompt.string("Enter Phone Number: ",
-                                    true, "Phone Number cannot be empty")
+                            prompt.string(Print.boldString("Enter Phone Number: "),
+                                    true, Print.redString("Phone Number cannot be empty"))
                     )
 
                     .build()
             );
 
             while (true) {
-                choice = prompt.string("Add another phone (y/n): ",
-                        true, "Invalid choice");
+                choice = prompt.string(Print.boldString("Add another phone (y/n): "),
+                        true, Print.redString("Invalid choice"));
 
                 if(!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"))
-                    System.out.println("Invalid choice");
+                    System.out.println(Print.redString("Invalid choice"));
                 else
                     break;
             }

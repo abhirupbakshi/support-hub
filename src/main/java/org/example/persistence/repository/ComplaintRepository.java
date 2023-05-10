@@ -75,21 +75,21 @@ public interface ComplaintRepository {
     void setStatus(int id, String statusName) throws NotFoundException;
 
     /**
-     * Assign an engineer to a complaint. Same as {@link EngineerRepositoryImpl#assignExistingComplain(String, int)} as
+     * Assign an employee to a complaint. Same as {@link EngineerRepositoryImpl#assignExistingComplain(String, int)} as
      * {@link Engineer} and {@link Complaint} are in a bidirectional relation.
-     * @param email The email of the engineer. Throws IllegalArgumentException if it's null
+     * @param email The email of the employee. Throws IllegalArgumentException if it's null
      * @param complainId The id of the complaint
-     * @throws NotFoundException If the engineer or the complaint does not exist
-     * @throws AlreadyExistException If the engineer already has the complaint assigned to them
+     * @throws NotFoundException If the employee or the complaint does not exist
+     * @throws AlreadyExistException If the employee already has the complaint assigned to them
      */
     void assignExistingEngineer(String email, int complainId) throws NotFoundException, AlreadyExistException;
 
     /**
-     * Remove an engineer from a complaint. Same as {@link EngineerRepositoryImpl#removeAssignedComplain(String, int)} as
+     * Remove an employee from a complaint. Same as {@link EngineerRepositoryImpl#removeAssignedComplain(String, int)} as
      * {@link Engineer} and {@link Complaint} are in a bidirectional relation.
-     * @param email The email of the engineer. Throws IllegalArgumentException if it's null
+     * @param email The email of the employee. Throws IllegalArgumentException if it's null
      * @param complainId The id of the complaint.
-     * @throws NotFoundException If the engineer or the complaint does not exist, or the engineer does not have
+     * @throws NotFoundException If the employee or the complaint does not exist, or the employee does not have
      * the complaint previously assigned to them
      */
     void removeAssignedEngineer(String email, int complainId) throws NotFoundException;

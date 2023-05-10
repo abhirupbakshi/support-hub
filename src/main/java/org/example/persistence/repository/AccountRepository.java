@@ -51,7 +51,7 @@ public interface AccountRepository {
     /**
      * Deletes the account with the given email.
      * <br>
-     * Note: For engineer deletion, improvements need to be made to make this more efficient.
+     * Note: For employee deletion, improvements need to be made to make this more efficient.
      * @param email The email of the employee. Throws IllegalArgumentException if it's null
      * @throws NotFoundException If no account is found with the given email
      */

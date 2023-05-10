@@ -1,5 +1,6 @@
 package org.example.service;
 
+import jakarta.persistence.FetchType;
 import org.example.persistence.entity.*;
 import org.example.persistence.exception.AlreadyExistException;
 import org.example.persistence.exception.NotFoundException;
@@ -38,62 +39,76 @@ public interface HODService extends AccountService<HOD> {
             throws AuthenticationException, AuthorizationException, NotFoundException;
 
     /**
-     * Get all complaints assigned to an engineer
+     * Returns a complaint with the given id.
+     * All the {@link FetchType#LAZY} fields are set to null.
+     * @param email The email of the HOD. Throws IllegalArgumentException it is null.
+     * @param password The password of the HOD. Throws IllegalArgumentException it is null.
+     * @param complaintId The id of the complaint.
+     * @return The {@link Complaint}
+     * @throws NotFoundException If the HOD or complaint is not found
+     * @throws AuthenticationException If the HOD is not authenticated.
+     * @throws AuthorizationException If the HOD is not authorized.
+     */
+    Complaint getComplaint(String email, String password, int complaintId)
+            throws AuthenticationException, AuthorizationException, NotFoundException;
+
+    /**
+     * Get all complaints assigned to an employee
      * @param email The email of the HOD. Throws IllegalArgumentException if it is null
      * @param password The password of the HOD. Throws IllegalArgumentException if it is null
-     * @param engineerEmail The email of the engineer. Throws IllegalArgumentException if it is null
-     * @return A {@link List} of all {@link Complaint}s assigned to the engineer
+     * @param engineerEmail The email of the employee. Throws IllegalArgumentException if it is null
+     * @return A {@link List} of all {@link Complaint}s assigned to the employee
      * @throws AuthenticationException If the email or password is incorrect
      * @throws AuthorizationException If the HOD is not authorized to do the task.
-     * @throws NotFoundException If the HOD or engineer is not found
+     * @throws NotFoundException If the HOD or employee is not found
      */
     List<Complaint> getComplaintsAssignedToEngineer(String email, String password, String engineerEmail)
             throws AuthenticationException, AuthorizationException, NotFoundException;
 
     /**
-     * Assign an existing complaint to an existing engineer
+     * Assign an existing complaint to an existing employee
      * @param email The email of the HOD. Throws IllegalArgumentException if it is null
      * @param password The password of the HOD. Throws IllegalArgumentException if it is null
      * @param complaintId The id of the complaint.
-     * @param engineerEmail The email of the engineer. Throws IllegalArgumentException if it is null
+     * @param engineerEmail The email of the employee. Throws IllegalArgumentException if it is null
      * @throws AuthenticationException If the email or password is incorrect
      * @throws AuthorizationException If the HOD is not authorized to do the task.
-     * @throws NotFoundException If the HOD, complaint or engineer is not found.
-     * @throws AlreadyExistException If the engineer is already assigned to the complaint
+     * @throws NotFoundException If the HOD, complaint or employee is not found.
+     * @throws AlreadyExistException If the employee is already assigned to the complaint
      */
     void assignExistingComplainToExistingEngineer(
             String email, String password, int complaintId, String engineerEmail)
             throws AuthenticationException, AuthorizationException, NotFoundException, AlreadyExistException;
 
     /**
-     * Removes an existing complaint from an existing engineer
+     * Removes an existing complaint from an existing employee
      * @param email The email of the HOD. Throws IllegalArgumentException if it is null
      * @param password The password of the HOD. Throws IllegalArgumentException if it is null
      * @param complaintId The id of the complaint.
-     * @param engineerEmail The email of the engineer. Throws IllegalArgumentException if it is null
+     * @param engineerEmail The email of the employee. Throws IllegalArgumentException if it is null
      * @throws AuthenticationException If the email or password is incorrect
      * @throws AuthorizationException If the HOD is not authorized to do the task.
-     * @throws NotFoundException If the HOD, complaint or engineer is not found or the complaint is
-     * not assigned to the engineer
+     * @throws NotFoundException If the HOD, complaint or employee is not found or the complaint is
+     * not assigned to the employee
      */
     void removeExistingComplainFromExistingEngineer(
             String email, String password, int complaintId, String engineerEmail)
             throws AuthenticationException, NotFoundException, AuthorizationException;
 
     /**
-     * Creates an engineer account
+     * Creates an employee account
      * @param email The email of the HOD. Throws IllegalArgumentException if it is null
      * @param password The password of the HOD. Throws IllegalArgumentException if it is null
-     * @param engineerEmail The email of the engineer. Throws IllegalArgumentException if it is null
-     * @param engineerForename The forename of the engineer. Throws IllegalArgumentException if it is null
-     * @param engineerSurname The surname of the engineer. Throws IllegalArgumentException if it is null
-     * @param addresses The list of address, of the engineer. Throws IllegalArgumentException if it is null
-     * @param phones The list of phones, of the engineer. Throws IllegalArgumentException if it is null
-     * @param engineerPassword The password for the engineer. Throws IllegalArgumentException if it is null
+     * @param engineerEmail The email of the employee. Throws IllegalArgumentException if it is null
+     * @param engineerForename The forename of the employee. Throws IllegalArgumentException if it is null
+     * @param engineerSurname The surname of the employee. Throws IllegalArgumentException if it is null
+     * @param addresses The list of address, of the employee. Throws IllegalArgumentException if it is null
+     * @param phones The list of phones, of the employee. Throws IllegalArgumentException if it is null
+     * @param engineerPassword The password for the employee. Throws IllegalArgumentException if it is null
      * @throws AuthenticationException If the HOD email or password is incorrect
      * @throws AuthorizationException If the HOD is not authorized to do the task.
      * @throws NotFoundException If the HOD is not found
-     * @throws AlreadyExistException If the engineer account already exists
+     * @throws AlreadyExistException If the employee account already exists
      */
     void createEngineerAccount(
             String email, String password,

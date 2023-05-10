@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * <h3>Class Engineer</h3>
- * This class represents engineer employee.
+ * This class represents employee employee.
  */
 @Entity
 @DiscriminatorValue("Engineer")
@@ -25,7 +25,7 @@ public class Engineer extends Employee {
 
     /**
      * <h4>Optional</h4>
-     * Assigned complaints to the engineer.
+     * Assigned complaints to the employee.
      */
     @ManyToMany(targetEntity = Complaint.class, mappedBy = "assignedEngineers")
     @Builder.Default

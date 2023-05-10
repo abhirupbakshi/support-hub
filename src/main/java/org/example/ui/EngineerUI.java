@@ -2,16 +2,11 @@ package org.example.ui;
 
 import org.example.persistence.exception.NotFoundException;
 import org.example.service.EngineerService;
-import org.example.service.HODService;
-import org.example.service.UserService;
 import org.example.service.exception.AuthenticationException;
 import org.example.service.exception.AuthorizationException;
 import org.example.service.implementation.EngineerServiceImpl;
-import org.example.service.implementation.HODServiceImpl;
-import org.example.service.implementation.UserServiceImpl;
 import org.example.ui.utilities.Print;
 import org.example.ui.utilities.Prompt;
-
 import java.util.Scanner;
 
 public class EngineerUI {
@@ -29,12 +24,15 @@ public class EngineerUI {
         try {
             engineerService.getAccountDetails(email, password);
             return new EngineerUI(password, email, scanner);
-        } catch (NotFoundException | AuthenticationException exception) {
-            System.out.println("Invalid email or password");
-        } catch (AuthorizationException exception) {
-            System.out.println("You are not authorized to login");
-        } catch (Exception exception) {
-            System.out.println("Something went wrong");
+        }
+        catch (NotFoundException | AuthenticationException exception) {
+            System.out.println(Print.redString("Invalid email or password"));
+        }
+        catch (AuthorizationException exception) {
+            System.out.println(Print.redString("You are not authorized to login"));
+        }
+        catch (Exception exception) {
+            System.out.println(Print.redString("Something went wrong"));
         }
 
         return null;
@@ -46,14 +44,14 @@ public class EngineerUI {
             Print.complaints(engineerService.getAllAssignedComplaints(email, password));
         }
         catch (AuthenticationException exception) {
-            System.out.println("Invalid email or password");
+            System.out.println(Print.redString("Invalid email or password"));
         }
         catch (AuthorizationException exception) {
-            System.out.println("You are not authorized to view assigned complaints");
+            System.out.println(Print.redString("You are not authorized to view assigned complaints"));
         }
         catch (NotFoundException ignored) { }
         catch (Exception exception) {
-            System.out.println("Something went wrong");
+            System.out.println(Print.redString("Something went wrong"));
         }
     }
 
@@ -63,20 +61,20 @@ public class EngineerUI {
 
         try {
             Print.complaint(engineerService.getAssignedComplaint(email, password,
-                    prompt.integer("Enter Complaint ID: ", "Invalid ID")
+                    prompt.integer(Print.boldString("Enter complaint ID: "), Print.redString("Invalid ID"))
             ));
         }
         catch (AuthenticationException exception) {
-            System.out.println("Invalid email or password");
+            System.out.println(Print.redString("Invalid email or password"));
         }
         catch (AuthorizationException exception) {
-            System.out.println("You are not authorized to view assigned complaints");
+            System.out.println(Print.redString("You are not authorized to view assigned complaints"));
         }
         catch (NotFoundException exception) {
-            System.out.println(exception.getMessage());
+            System.out.println(Print.redString(exception.getMessage()));
         }
         catch (Exception exception) {
-            System.out.println("Something went wrong");
+            System.out.println(Print.redString("Something went wrong"));
         }
     }
 
@@ -86,23 +84,23 @@ public class EngineerUI {
 
         try {
             engineerService.changeComplaintStatus(email, password,
-                    prompt.integer("Enter Complaint ID: ", "Invalid ID"),
-                    prompt.string("Enter new status: ", true, "Invalid status")
+                    prompt.integer(Print.boldString("Enter complaint ID: "), Print.redString("Invalid ID")),
+                    prompt.string(Print.boldString("Enter new status: "), true, Print.redString("Invalid status"))
             );
 
-            System.out.println("Complaint status changed successfully");
+            System.out.println(Print.greenString("Complaint status changed successfully"));
         }
         catch (AuthenticationException exception) {
-            System.out.println("Invalid email or password");
+            System.out.println(Print.redString("Invalid email or password"));
         }
         catch (AuthorizationException exception) {
-            System.out.println("You are not authorized to change complaint status");
+            System.out.println(Print.redString("You are not authorized to change complaint status"));
         }
         catch (NotFoundException exception) {
-            System.out.println(exception.getMessage());
+            System.out.println(Print.redString(exception.getMessage()));
         }
         catch (Exception exception) {
-            System.out.println("Something went wrong");
+            System.out.println(Print.redString("Something went wrong"));
         }
     }
 
@@ -112,23 +110,23 @@ public class EngineerUI {
 
         try {
             engineerService.addUpdateToComplaint(email, password,
-                    prompt.integer("Enter complaint ID: ", "Invalid ID"),
-                    prompt.string("Enter new update: ", true, "Invalid update")
+                    prompt.integer(Print.boldString("Enter complaint ID: "), Print.redString("Invalid ID")),
+                    prompt.string(Print.boldString("Enter new update: "), true, Print.redString("Invalid update"))
             );
 
-            System.out.println("Update added successfully");
+            System.out.println(Print.greenString("Update added successfully"));
         }
         catch (AuthenticationException exception) {
-            System.out.println("Invalid email or password");
+            System.out.println(Print.redString("Invalid email or password"));
         }
         catch (AuthorizationException exception) {
-            System.out.println("You are not authorized to add updates to complaints");
+            System.out.println(Print.redString("You are not authorized to add updates to complaints"));
         }
         catch (NotFoundException exception) {
-            System.out.println(exception.getMessage());
+            System.out.println(Print.redString(exception.getMessage()));
         }
         catch (Exception exception) {
-            System.out.println("Something went wrong");
+            System.out.println(Print.redString("Something went wrong"));
         }
     }
 
@@ -136,43 +134,43 @@ public class EngineerUI {
 
         try {
             engineerService.updatePassword(email,
-                    prompt.password("Enter your current password: ", "Invalid password"),
-                    prompt.password("Enter your new password: ", "Invalid password")
+                    prompt.password(Print.boldString("Enter your current password: "), Print.redString("Invalid password")),
+                    prompt.password(Print.boldString("Enter your new password: "), Print.redString("Invalid password"))
             );
 
-            System.out.println("Password changed successfully");
+            System.out.println(Print.greenString("Password changed successfully"));
         }
         catch (AuthorizationException exception) {
-            System.out.println("You are not authorized to change password");
+            System.out.println(Print.redString("You are not authorized to change password"));
         }
         catch (AuthenticationException exception) {
-            System.out.println("Invalid current password");
+            System.out.println(Print.redString("Invalid current password"));
         }
         catch (NotFoundException ignored) { }
         catch (Exception exception) {
-            System.out.println("Something went wrong");
+            System.out.println(Print.redString("Something went wrong"));
         }
     }
 
     private boolean deleteAccount() {
         try {
             engineerService.deleteAccount(email,
-                    prompt.password("Enter your password: ",
-                            "Invalid password"));
+                    prompt.password(Print.boldString("Enter your password: "),
+                            Print.redString("Invalid password")));
 
-            System.out.println("Account deleted successfully");
+            System.out.println(Print.greenString("Account deleted successfully"));
 
             return true;
         }
         catch (AuthenticationException exception) {
-            System.out.println("Invalid email or password");
+            System.out.println(Print.redString("Invalid email or password"));
         }
         catch (AuthorizationException exception) {
-            System.out.println("You are not authorized to delete account");
+            System.out.println(Print.redString("You are not authorized to delete account"));
         }
         catch (NotFoundException ignored) { }
         catch (Exception exception) {
-            System.out.println("Something went wrong");
+            System.out.println(Print.redString("Something went wrong"));
         }
 
         return false;
@@ -180,22 +178,21 @@ public class EngineerUI {
 
     public void prompt() {
 
-        System.out.println("Successfully logged in");
+        System.out.println(Print.greenString("Successfully logged in"));
 
         while (true) {
 
-            System.out.println("""
-                    1. View all assigned complaints
-                    2. View an individual assigned complaint
-                    3. Change a complaint status
-                    4. Add a update to a complaint
-                    5. Change password
-                    6. Delete account
-                    7. Logout""");
+            System.out.println(Print.boldString("1. ") + "View all assigned complaints");
+            System.out.println(Print.boldString("2. ") + "View an individual assigned complaint");
+            System.out.println(Print.boldString("3. ") + "Change a complaint status");
+            System.out.println(Print.boldString("4. ") + "Add a update to a complaint");
+            System.out.println(Print.boldString("5. ") + "Change password");
+            System.out.println(Print.boldString("6. ") + "Delete account");
+            System.out.println(Print.boldString("7. ") + "Logout");
 
             int choice;
 
-            System.out.print("Enter your choice: ");
+            System.out.print(Print.boldString("Enter your choice: "));
 
             try {
                 choice = Integer.parseInt(scanner.nextLine());
@@ -213,7 +210,7 @@ public class EngineerUI {
                     if(deleteAccount()) return;
                 }
                 case 7 -> { return; }
-                default -> System.out.println("Invalid choice");
+                default -> System.out.println(Print.redString("Invalid choice"));
             }
         }
     }

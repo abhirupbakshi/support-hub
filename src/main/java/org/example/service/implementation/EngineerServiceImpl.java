@@ -21,7 +21,7 @@ public class EngineerServiceImpl extends AccountServiceImpl<Engineer>
 
     /**
      * This method uses {@link AccountServiceImpl#getAccountDetails(Class, Class, String, String)}
-     * and returns an account of an engineer with the {@link FetchType#LAZY} fields set to null.
+     * and returns an account of an employee with the {@link FetchType#LAZY} fields set to null.
      */
     @Override
     public Account getAccountDetails(String email, String password)
