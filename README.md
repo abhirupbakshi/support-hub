@@ -26,7 +26,7 @@ This app has been created by using JPA and not any specific ORM framework. Hence
 <br>
 ER Diagram:
 <img src="https://i.imgur.com/vKMEugp.png">
-The diagram has been generated with [drawio](https://www.drawio.com/) and the generated XML can be accessed from [here]().
+The diagram has been generated with [drawio](https://www.drawio.com/) and the generated XML can be accessed from [here](https://github.com/abhirupbakshi/support-hub/blob/main/er_diagram.xml).
 
 ## Permissions:
 In the database, permissions can be granted or revoked to the employees (all types) with the help of a table called Authorizations. The table consists of following attributes:
@@ -57,5 +57,5 @@ There are three abstruction layers:
 
 # Docs:
 * [README.md](https://github.com/abhirupbakshi/Support-Hub/blob/main/README.md)
-* [JavaDocs](https://docs.oracle.com/javase/8/docs/api/)
+* [JavaDocs](https://abhirupbakshi.github.io/support-hub/)
 
