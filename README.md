@@ -25,7 +25,7 @@ An HOD account has to be created by the database administrator and an Engineer a
 This app has been created by using JPA and not any specific ORM framework. Hence only an relational database can be used to store the data.
 <br>
 ER Diagram:
-<img src="https://i.imgur.com/vKMEugp.png">
+<img src="https://i.imgur.com/l18YUhm.png">
 The diagram has been generated with [drawio](https://www.drawio.com/) and the generated XML can be accessed from [here](https://github.com/abhirupbakshi/support-hub/blob/main/er_diagram.xml).
 
 ## Permissions:
