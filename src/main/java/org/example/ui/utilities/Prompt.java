@@ -46,7 +46,9 @@ public class Prompt {
 
             System.out.print(message);
 
+            System.out.print("\033[8m");
             String input = scanner.nextLine();
+            System.out.print("\033[28m");
 
             if (input.isEmpty())
                 System.out.println(invalidMessage);
