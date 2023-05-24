@@ -61,6 +61,8 @@ public class UserUI {
                     prompt.password(Print.boldString("Enter Password: "),
                             Print.redString("Password cannot be empty"))
             );
+
+            System.out.println(Print.greenString("Account created successfully"));
         }
         catch (AuthorizationException exception) {
             System.out.println(Print.redString("You are not authorized to create an account"));
@@ -71,8 +73,6 @@ public class UserUI {
         catch (Exception exception) {
             System.out.println(Print.redString("Something went wrong"));
         }
-
-        System.out.println(Print.greenString("Account created successfully"));
     }
 
     private boolean deleteAccount() {
