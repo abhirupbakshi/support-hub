@@ -26,7 +26,10 @@ This app has been created by using JPA and not any specific ORM framework. Hence
 <br>
 ER Diagram:
 <img src="https://i.imgur.com/l18YUhm.png">
-The diagram has been generated with [drawio](https://www.drawio.com/) and the generated XML can be accessed from [here](https://github.com/abhirupbakshi/support-hub/blob/main/er_diagram.xml).
+## UI Flowchart
+<img src="https://i.imgur.com/SpK5u3x.png">
+
+The diagrams has been generated with [drawio](https://www.drawio.com/) and the generated XML can be accessed from [here](https://github.com/abhirupbakshi/support-hub/blob/main/er_diagram.xml).
 
 ## Permissions:
 In the database, permissions can be granted or revoked to the employees (all types) with the help of a table called Authorizations. The table consists of following attributes:
