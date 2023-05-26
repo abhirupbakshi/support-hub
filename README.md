@@ -35,7 +35,7 @@ The diagrams has been generated with [drawio](https://www.drawio.com/) and the g
 In the database, permissions can be granted or revoked to the employees (all types) with the help of a table called Authorizations. The table consists of following attributes:
 * **Employee Type**: The type of the employee who is doing the operation. Member of the compound primary key (other one is Permission Name).
 * **Permission Name**: The permission name for the employee. Member of the compound primary key (other one is Employee Type). All charecters are lowercase. The name follows this scheme:
-    * \<on requested class name\>\_\<CRUD operation name\>_\<name of the operation\>.
+    * **\<on requested class name\>**\_**\<CRUD operation name\>**_**\<name of the operation\>**.
     * Example: If HOD is granted permission to create an Engineer account then the permission name would be: engineer_create_account.
 * **Value**: 1 or 0, indicating whether the permission is granted or revoked.
 
